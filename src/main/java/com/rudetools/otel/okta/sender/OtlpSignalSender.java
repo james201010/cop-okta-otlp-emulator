@@ -34,20 +34,35 @@ public class OtlpSignalSender implements ApplicationConstants {
 			//generateNode1();
 			
 			// Oag Master Node -nginx
-			generateNode2();
+			generateC1Node1();
 			
 			
 			// ext-workernode-1
-			generateNode3();
+			generateC1Node2();
 			
 			
 			// int-workernode-1
-			generateNode4();
+			generateC1Node3();
 			
 
 			// int-workernode-2
-			generateNode5();
+			generateC1Node4();
 			
+
+			// Oag Master Node -nginx
+			generateC2Node1();
+			
+			
+			// ext-workernode-1
+			generateC2Node2();
+			
+			
+			// int-workernode-1
+			generateC2Node3();
+			
+
+			// int-workernode-2
+			generateC2Node4();
 			
 			long totalTime = 0;
 			while (true) {
@@ -74,43 +89,182 @@ public class OtlpSignalSender implements ApplicationConstants {
 	}
 
 	// Prometheus Node
-	private static void generateNode1() {
+//	private static void generateC1Node1() {
+//		
+//		Map<String, String> resAttrs;
+//		EntityInstance entityInst;
+//		OtlpEntityThread entityThread;
+//		Thread tempThread;
+//		
+//		log("MAIN Sender | Creating Node 1");
+//		
+//		resAttrs = new HashMap<String, String>();
+//		resAttrs.put(ENTITY_ATTR_SVCNAME, "okta-test-sender");
+//		resAttrs.put(ENTITY_ATTR_NET_HOSTNAME, "10.212.9.247");
+//		resAttrs.put(ENTITY_ATTR_INSTID, "10.212.9.247:8888");
+//		resAttrs.put(ENTITY_ATTR_NET_HOSTPORT, "8888");
+//		resAttrs.put(ENTITY_ATTR_HTTP_SCHEME, "http");
+//		
+//		entityInst = new EntityInstance(resAttrs, "otelcol/prometheusreceiver 1");
+//		
+//		
+//		xgenDiskMetrics(entityInst);
+//		xgenCpuMetrics(entityInst);
+//		xgenMemoryMetrics(entityInst);
+//		xgenNetworkMetrics(entityInst);
+//		
+//		entityThread = new OtlpEntityThread(entityInst, " -- NODE 1");
+//		tempThread = new Thread(entityThread, " -- NODE 1");
+//		SENDER_THREADS.add(tempThread);
+//		tempThread.start();
+//		
+//		log("MAIN Sender | Creating Node 1 Done");
+//		
+//
+//	}
+
+	
+	// oag cluster admin-1 - nginx
+	private static void generateC2Node1() {
 		
 		Map<String, String> resAttrs;
 		EntityInstance entityInst;
 		OtlpEntityThread entityThread;
 		Thread tempThread;
 		
-		log("MAIN Sender | Creating Node 1");
+		log("MAIN Sender | Creating Node 2");
 		
 		resAttrs = new HashMap<String, String>();
+		
 		resAttrs.put(ENTITY_ATTR_SVCNAME, "okta-test-sender");
-		resAttrs.put(ENTITY_ATTR_NET_HOSTNAME, "10.212.9.247");
-		resAttrs.put(ENTITY_ATTR_INSTID, "10.212.9.247:8888");
-		resAttrs.put(ENTITY_ATTR_NET_HOSTPORT, "8888");
+		resAttrs.put(ENTITY_ATTR_NET_HOSTNAME, "10.212.0.132");
+		resAttrs.put(ENTITY_ATTR_INSTID, "10.212.0.132:8889");
+		resAttrs.put(ENTITY_ATTR_NET_HOSTPORT, "8889");
 		resAttrs.put(ENTITY_ATTR_HTTP_SCHEME, "http");
+
+		entityInst = new EntityInstance(resAttrs, "otelcol/prometheusreceiver 2");
 		
-		entityInst = new EntityInstance(resAttrs, "otelcol/prometheusreceiver 1");
+		xgenCluster2Metrics(entityInst);
+		xgenEngineMetrics(entityInst);
+		//xgenDiskMetrics(entityInst);
+		//xgenCpuMetrics(entityInst);
+		//xgenMemoryMetrics(entityInst);
+		//xgenNetworkMetrics(entityInst);
 		
+		entityThread = new OtlpEntityThread(entityInst, " -- C2 NODE 2");
+		tempThread = new Thread(entityThread, " -- C2 NODE 2");
+		SENDER_THREADS.add(tempThread);
+		tempThread.start();			
+		
+		log("MAIN Sender | Creating Node 2 Done");
+
+	}
+	
+	// oag cluster ext-workernode-1 
+	private static void generateC2Node2() {
+		
+		Map<String, String> resAttrs;
+		EntityInstance entityInst;
+		OtlpEntityThread entityThread;
+		Thread tempThread;
+		
+		log("MAIN Sender | Creating Node 3");
+		
+		resAttrs = new HashMap<String, String>();
+		
+		resAttrs.put(ENTITY_ATTR_SVCNAME, "okta-test-sender");
+		resAttrs.put(ENTITY_ATTR_NET_HOSTNAME, "10.212.5.102");
+		resAttrs.put(ENTITY_ATTR_INSTID, "10.212.5.101:8889");
+		resAttrs.put(ENTITY_ATTR_NET_HOSTPORT, "8889");
+		resAttrs.put(ENTITY_ATTR_HTTP_SCHEME, "http");
+
+		entityInst = new EntityInstance(resAttrs, "otelcol/prometheusreceiver 3");
+		
+		xgenDiskMetrics(entityInst);
+		xgenCpuMetrics(entityInst);
+		xgenMemoryMetricsExtWn1(entityInst);
+		xgenNetworkMetrics(entityInst);
+		
+		entityThread = new OtlpEntityThread(entityInst, " -- C2 NODE 3");
+		tempThread = new Thread(entityThread, " -- C2 NODE 3");
+		SENDER_THREADS.add(tempThread);
+		tempThread.start();			
+		
+		log("MAIN Sender | Creating Node 3 Done");
+
+	}	
+	
+	// oag cluster int-workernode-1 
+	private static void generateC2Node3() {
+		
+		Map<String, String> resAttrs;
+		EntityInstance entityInst;
+		OtlpEntityThread entityThread;
+		Thread tempThread;
+		
+		log("MAIN Sender | Creating Node 4");
+		
+		resAttrs = new HashMap<String, String>();
+		
+		resAttrs.put(ENTITY_ATTR_SVCNAME, "okta-test-sender");
+		resAttrs.put(ENTITY_ATTR_NET_HOSTNAME, "10.212.8.232");
+		resAttrs.put(ENTITY_ATTR_INSTID, "10.212.8.232:8889");
+		resAttrs.put(ENTITY_ATTR_NET_HOSTPORT, "8889");
+		resAttrs.put(ENTITY_ATTR_HTTP_SCHEME, "http");
+
+		entityInst = new EntityInstance(resAttrs, "otelcol/prometheusreceiver 4");
 		
 		xgenDiskMetrics(entityInst);
 		xgenCpuMetrics(entityInst);
 		xgenMemoryMetrics(entityInst);
 		xgenNetworkMetrics(entityInst);
 		
-		entityThread = new OtlpEntityThread(entityInst, " -- NODE 1");
-		tempThread = new Thread(entityThread, " -- NODE 1");
+		entityThread = new OtlpEntityThread(entityInst, " -- C2 NODE 4");
+		tempThread = new Thread(entityThread, " -- C2 NODE 4");
 		SENDER_THREADS.add(tempThread);
-		tempThread.start();
+		tempThread.start();			
 		
-		log("MAIN Sender | Creating Node 1 Done");
+		log("MAIN Sender | Creating Node 4 Done");
+
+	}
+	
+	// oag cluster int-workernode-2 
+	private static void generateC2Node4() {
 		
+		Map<String, String> resAttrs;
+		EntityInstance entityInst;
+		OtlpEntityThread entityThread;
+		Thread tempThread;
+		
+		log("MAIN Sender | Creating Node 5");
+		
+		resAttrs = new HashMap<String, String>();
+		
+		resAttrs.put(ENTITY_ATTR_SVCNAME, "okta-test-sender");
+		resAttrs.put(ENTITY_ATTR_NET_HOSTNAME, "10.212.132.222");
+		resAttrs.put(ENTITY_ATTR_INSTID, "10.212.132.222:8889");
+		resAttrs.put(ENTITY_ATTR_NET_HOSTPORT, "8889");
+		resAttrs.put(ENTITY_ATTR_HTTP_SCHEME, "http");
+
+		entityInst = new EntityInstance(resAttrs, "otelcol/prometheusreceiver 5");
+		
+		xgenDiskMetrics(entityInst);
+		xgenCpuMetrics(entityInst);
+		xgenMemoryMetrics(entityInst);
+		xgenNetworkMetrics(entityInst);
+		
+		entityThread = new OtlpEntityThread(entityInst, " -- C2 NODE 5");
+		tempThread = new Thread(entityThread, " -- C2 NODE 5");
+		SENDER_THREADS.add(tempThread);
+		tempThread.start();			
+		
+		log("MAIN Sender | Creating Node 5 Done");
 
 	}
 	
 	
 	// oag cluster admin-1 - nginx
-	private static void generateNode2() {
+	private static void generateC1Node1() {
 		
 		Map<String, String> resAttrs;
 		EntityInstance entityInst;
@@ -129,7 +283,7 @@ public class OtlpSignalSender implements ApplicationConstants {
 
 		entityInst = new EntityInstance(resAttrs, "otelcol/prometheusreceiver 2");
 		
-		xgenClusterMetrics(entityInst);
+		xgenCluster1Metrics(entityInst);
 		xgenEngineMetrics(entityInst);
 		//xgenDiskMetrics(entityInst);
 		//xgenCpuMetrics(entityInst);
@@ -146,7 +300,7 @@ public class OtlpSignalSender implements ApplicationConstants {
 	}
 	
 	// oag cluster ext-workernode-1 
-	private static void generateNode3() {
+	private static void generateC1Node2() {
 		
 		Map<String, String> resAttrs;
 		EntityInstance entityInst;
@@ -180,7 +334,7 @@ public class OtlpSignalSender implements ApplicationConstants {
 	}	
 	
 	// oag cluster int-workernode-1 
-	private static void generateNode4() {
+	private static void generateC1Node3() {
 		
 		Map<String, String> resAttrs;
 		EntityInstance entityInst;
@@ -214,7 +368,7 @@ public class OtlpSignalSender implements ApplicationConstants {
 	}
 	
 	// oag cluster int-workernode-2 
-	private static void generateNode5() {
+	private static void generateC1Node4() {
 		
 		Map<String, String> resAttrs;
 		EntityInstance entityInst;
@@ -247,7 +401,7 @@ public class OtlpSignalSender implements ApplicationConstants {
 
 	}
 	
-	private static void xgenClusterMetrics(EntityInstance entity) {
+	private static void xgenCluster1Metrics(EntityInstance entity) {
 		
 		MetricDefinition metricDef;
 		MetricDataPoint metricDp;
@@ -302,7 +456,60 @@ public class OtlpSignalSender implements ApplicationConstants {
 		
 	}
 	
+	private static void xgenCluster2Metrics(EntityInstance entity) {
+		
+		MetricDefinition metricDef;
+		MetricDataPoint metricDp;
+
+		// ext-workernode-1
+		metricDef = createMetricDefinition(entity, MetricDefinition.GAUGE_DOUBLE, 
+				"OAG_ha_validation_result_okta_oag_linux_admin_1_new_dev_aws_glic_com_test2_okta_oag_linux_ext_workernode_1_new_dev_aws_glic_com_test2", 
+				"HA validation status between master node okta-oag-linux-admin-1-new.dev.aws.glic.com and worker node okta-oag-linux-ext-workernode-1-new.dev.aws.glic.com");
+		metricDp = createDoubleMetricDataPoint(metricDef, 1.0, true);			
+
+
+		// int-workernode-1
+		metricDef = createMetricDefinition(entity, MetricDefinition.GAUGE_DOUBLE, 
+				"OAG_ha_validation_result_okta_oag_linux_admin_1_new_dev_aws_glic_com_test2_okta_oag_linux_int_workernode_1_new_dev_aws_glic_com_test2", 
+				"HA validation status between master node okta-oag-linux-admin-1-new.dev.aws.glic.com and worker node okta-oag-linux-int-workernode-1-new.dev.aws.glic.com");
+		metricDp = createDoubleMetricDataPoint(metricDef, 1.0, true);	
+
+		
+		// int-workernode-2
+		metricDef = createMetricDefinition(entity, MetricDefinition.GAUGE_DOUBLE, 
+				"OAG_ha_validation_result_okta_oag_linux_admin_1_new_dev_aws_glic_com_test2_okta_oag_linux_int_workernode_2_new_dev_aws_glic_com_test2", 
+				"HA validation status between master node okta-oag-linux-admin-1-new.dev.aws.glic.com and worker node okta-oag-linux-int-workernode-2-new.dev.aws.glic.com");
+		metricDp = createDoubleMetricDataPoint(metricDef, 1.0, true);	
 	
+		
+		
+		
+		
+		// ext-workernode-1
+		metricDef = createMetricDefinition(entity, MetricDefinition.GAUGE_DOUBLE, 
+				"OAG_ha_last_sync_timestamp_okta_oag_linux_admin_1_new_dev_aws_glic_com_test2_okta_oag_linux_ext_workernode_1_new_dev_aws_glic_com_test2", 
+				"Last timestamp for HA worker node okta-oag-linux-ext-workernode-1-new.dev.aws.glic.com of master node okta-oag-linux-admin-1-new.dev.aws.glic.com");
+		metricDp = createDoubleMetricDataPoint(metricDef, 1.703621713E9, true);			
+		
+		
+		// int-workernode-1
+		metricDef = createMetricDefinition(entity, MetricDefinition.GAUGE_DOUBLE, 
+				"OAG_ha_last_sync_timestamp_okta_oag_linux_admin_1_new_dev_aws_glic_com_test2_okta_oag_linux_int_workernode_1_new_dev_aws_glic_com_test2", 
+				"Last timestamp for HA worker node okta-oag-linux-int-workernode-1-new.dev.aws.glic.com of master node okta-oag-linux-admin-1-new.dev.aws.glic.com");
+		metricDp = createDoubleMetricDataPoint(metricDef, 1.703621714E9, true);	
+
+		
+		// int-workernode-2
+		metricDef = createMetricDefinition(entity, MetricDefinition.GAUGE_DOUBLE, 
+				"OAG_ha_last_sync_timestamp_okta_oag_linux_admin_1_new_dev_aws_glic_com_test2_okta_oag_linux_int_workernode_2_new_dev_aws_glic_com_test2", 
+				"Last timestamp for HA worker node okta-oag-linux-int-workernode-2-new.dev.aws.glic.com of master node okta-oag-linux-admin-1-new.dev.aws.glic.com");
+		metricDp = createDoubleMetricDataPoint(metricDef, 1.703621714E9, true);	
+		
+		
+		
+		
+		
+	}
 	
 	private static void xgenNetworkMetrics(EntityInstance entity) {
 		
